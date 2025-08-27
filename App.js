@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import ManageExpense from './screens/ManageExpense';
 import AllExpenses from './screens/AllExpenses';
 import RecentExpenses from './screens/RecentExpenses';
+import ExpensesContextProvider from './store/expense-context';
 
 import { GlobalStyles } from './constants/styles';
 import IconButton from './components/UI/IconButton';
@@ -53,6 +54,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto" />
+      <ExpensesContextProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
           headerStyle: {
@@ -64,6 +66,7 @@ export default function App() {
           <Stack.Screen name="ManageExpense" component={ManageExpense} options={{ presentation: 'modal' }} />
         </Stack.Navigator>
       </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }
