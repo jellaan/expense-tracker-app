@@ -62,24 +62,35 @@ function ExpenseForm({ onCancel, onSubmit, submitButtonLabel, defaultValues }) {
         <View style={styles.form}>
             <Text style={styles.title}>Your Expense</Text>
             <View style={styles.inputsRow}>
-                <Input style={styles.rowInput} label="Amount" invalid={!inputs.amount.isValid} textInputConfig={{
-                    keyboardType: 'decimal-pad',
-                    onChangeText: inputChangeHandler.bind(this, 'amount'),
-                    value: inputs.amount.value
-                }} />
-                <Input style={styles.rowInput} label="Date" invalid={!inputs.date.isValid} textInputConfig={{
-                    placeholder: 'YYYY-MM-DD',
-                    maxLength: 10,
-                    onChangeText: inputChangeHandler.bind(this, 'date'),
-                    value: inputs.date.value
-                }} />
+                <Input
+                    style={styles.rowInput}
+                    label="Amount"
+                    invalid={!inputs.amount.isValid}
+                    textInputConfig={{
+                        keyboardType: 'decimal-pad',
+                        onChangeText: inputChangeHandler.bind(this, 'amount'),
+                        value: inputs.amount.value
+                    }} />
+                <Input
+                    style={styles.rowInput}
+                    label="Date"
+                    invalid={!inputs.date.isValid}
+                    textInputConfig={{
+                        placeholder: 'YYYY-MM-DD',
+                        maxLength: 10,
+                        onChangeText: inputChangeHandler.bind(this, 'date'),
+                        value: inputs.date.value
+                    }} />
             </View>
-            <Input label="Description" invalid={!inputs.description.isValid} textInputConfig={{
-                multiline: true,
-                autoCorrect: false, // default is true
-                onChangeText: inputChangeHandler.bind(this, 'description'),
-                value: inputs.description.value
-            }} />
+            <Input
+                label="Description"
+                invalid={!inputs.description.isValid}
+                textInputConfig={{
+                    multiline: true,
+                    autoCorrect: false, // default is true
+                    onChangeText: inputChangeHandler.bind(this, 'description'),
+                    value: inputs.description.value
+                }} />
             {formIsInvalid && (
                 <Text style={styles.errorText}>Invalid input values - please check your entered data</Text>
             )}
