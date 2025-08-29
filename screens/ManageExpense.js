@@ -1,11 +1,12 @@
 import { View, StyleSheet } from "react-native";
-import { useLayoutEffect, useContext } from "react";
+import { useLayoutEffect, useContext, useState } from "react";
 
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import { ExpensesContext } from "../store/expense-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { storeExpense, updateExpense, deleteExpense } from "../util/http";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 function ManageExpense({ route, navigation }) {
     // const editedExpenseId = route.params.expenseId;
@@ -16,6 +17,8 @@ function ManageExpense({ route, navigation }) {
 
     const selectedExpenses = expensesCtx.expenses.find(expense => expense.id === editedExpenseId);
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: isEditing ? 'Edit Expense' : 'Add Expense'
@@ -23,7 +26,9 @@ function ManageExpense({ route, navigation }) {
     }, [navigation, isEditing]);
 
     async function deleteExpenseHandler() {
+        setIsSubmitting(true);
         await deleteExpense(editedExpenseId);
+        // setIsSubmitting(false); no need since we are closing the screen by going back
         expensesCtx.deleteExpense(editedExpenseId);
         navigation.goBack();
     }
@@ -33,6 +38,7 @@ function ManageExpense({ route, navigation }) {
     }
 
     async function confirmHandler(expenseData) {
+        setIsSubmitting(true);
         if (isEditing) {
             expensesCtx.updateExpense(editedExpenseId, expenseData);
             await updateExpense(editedExpenseId, expenseData);
@@ -42,7 +48,12 @@ function ManageExpense({ route, navigation }) {
             const id = await storeExpense(expenseData);
             expensesCtx.addExpense({...expenseData, id: id})
         }
+        // setIsSubmitting(false); no need since we are closing the screen by going back
         navigation.goBack();
+    }
+
+    if(isSubmitting) {
+        return <LoadingOverlay />;
     }
 
     return (
